@@ -4,9 +4,9 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="SECTION_5">Humidity</string>
-    <string name="SECTION_2">Air Temperature</string>
+    <string name="SECTION_2">Drop Size</string>
     <string name="SECTION_3">Soil Temperature</string>
-    <string name="SECTION_4">Solar Intensity</string>
+    <string name="SECTION_4">Air Temperature</string>
     <string name="SECTION_1">Rainfall</string>
 
 </resources>

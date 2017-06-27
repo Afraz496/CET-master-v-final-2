@@ -66,6 +66,16 @@ import static android.support.v4.view.PagerAdapter.POSITION_NONE;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -103,17 +113,26 @@ public class MainActivity extends AppCompatActivity {
     private Boolean fabChecked = TRUE;
 
     //=====================DATABASE RELATED VARIABLES, DO NOT CHANGE--------------------------------
-    //database variables, change here for different Apache connections:
-    String server_url = "http://129.31.179.170/climateedgedb.php"; //edit the IP address here.
-    //variables to send to the database
-//    final String curr_val,tag;
+    //Database variables, change here for different Apache connections:
+    String server_url = "http://129.31.181.175/climateedgedb.php"; //edit the IP address here.
+
+    //Variables to send to the database
+    String curr_val,tag;
     AlertDialog.Builder builder;
+    int indexofFile = 0; // Universal counter to maintain line number of the txt file.
+    private TextView textViewResult; //for displaying the feedback on screen.
 
+    //variables to receive feedback from the database
+    char id = 'R'; //<==========  change feedback identifier here.
 
+    //----------------------Code begins here for when the app launches-----------------------------
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //textViewResult = (TextView)findViewById(R.id.textview_addme) <===============   edit me.
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         doTheAutoRefresh();
@@ -188,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
 
         resetButton = (Button) findViewById(R.id.resetButton);
@@ -649,50 +670,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //If the server button is pressed.
                 if(id == R.id.Server){
-                    final String curr_val,tag;
-                    curr_val = "val";
-                    tag ="tag";
-                    //ReadDataFromFile();
-                    builder = new AlertDialog.Builder(MainActivity.this);
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, server_url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    builder.setTitle("Server Response");
-                                    builder.setMessage("Response :"+response);
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                    //nothing
 
-                                            System.out.println("Hello World");
-
-
-                                        }
-                                    });
-                                    AlertDialog alertDialog = builder.create();
-                                    alertDialog.show();
-                                }
-                            }
-                            , new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                            Toast.makeText(MainActivity.this,"Error...",Toast.LENGTH_SHORT).show();
-                            error.printStackTrace();
-
-                        }
-                    }){ //hash map to sift through database
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String,String> params = new HashMap<String, String>();
-                            params.put("tag",tag);
-                            params.put("value",curr_val);
-                            return params;
-                        }
-                    };
-
-                    MySingleton.getInstance(MainActivity.this).addTorequestque(stringRequest);
                 }
 
                 if ((id == R.id.onClickStart)&&pressed) {
@@ -739,6 +719,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();}
+                    refresher();
                     return true;
                 }
 
@@ -768,38 +749,72 @@ private  final Handler handler = new Handler();
                 // Write code for your refresh logic
                 refresher();
 
-               doTheAutoRefresh();
+                //Send the data to the database here.
+                sendDatatoDatabase();
+
+                //Receive feedback here.
+               // getfeedbackFromDatabase();
+
+                doTheAutoRefresh();
             }
-        }, 5000);   //this is for 5mins do 3600000 for hourly
+        }, 8000);   //this is for 5mins do 3600000 for hourly
     }
 
 
-//public void ReadDataFromFile(){
-//    try {
-//
-//        FileInputStream fileInputStream = openFileInput("ArduinoData.txt");
-//        InputStreamReader inputStreamReader = new InputStreamReader((fileInputStream));
-//        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-//        StringBuffer stringBuffer = new StringBuffer();
-//
-//        String lines;
-//        while ((lines = bufferedReader.readLine()) != null) {
-//            tag = String.valueOf(lines.charAt(0));
-//            curr_val = lines.substring(1,lines.length());
-//        }
-//        //textBox.setText(stringBuffer);
-//        fileInputStream.close();
-//
-//
-//    } catch (FileNotFoundException e) {
-//        e.printStackTrace();
-//
-//
-//    } catch (IOException e) {
-//        e.printStackTrace();
-//
-//    }
-//}
+public void ReadDataFromFile(){
+    try {
+
+        FileInputStream fileInputStream = openFileInput("ArduinoData.txt");
+        InputStreamReader inputStreamReader = new InputStreamReader((fileInputStream));
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        StringBuffer stringBuffer = new StringBuffer();
+
+        String lines;
+        while ((lines = bufferedReader.readLine()) != null) {
+            tag = String.valueOf(lines.charAt(0));
+            curr_val = lines.substring(1,lines.length());
+        }
+        //textBox.setText(stringBuffer);
+        fileInputStream.close();
+
+
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+
+
+    } catch (IOException e) {
+        e.printStackTrace();
+
+    }
+}
+
+//---------------This function is used to send any 2 Strings as input to the database---------------
+    public void sender(final String a1,final String a2) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, server_url,
+                new Response.Listener<String>() {
+                    public void onResponse(String response) {
+
+                    }
+                }
+                , new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(MainActivity.this,"Error...",Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+
+            }
+        }){
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>(10);
+
+                params.put("tag",a1);
+                params.put("value",a2);
+
+                return params;
+            }
+        };
+        MySingleton.getInstance(MainActivity.this).addTorequestque(stringRequest);
+    }
 
 
 //    /**
@@ -914,7 +929,105 @@ private  final Handler handler = new Handler();
 
 
             }
+            //---------------This function reads a txt file and sends data to a database------------
+
+            //Function Description:
+            /*
+                Inputs: None
+
+                Outputs:
+
+                    1) Sends tags in the form of 'R', 'T', 'V' etc to distinguish sensor type
+                       to phpMyAdmin hosting a database on server_url
+                    2) Sends values of corresponding tags in the adjacent column of phpmyAdmin.
+
+                This function reads "ArduinoData.txt" and uses the sender() function in a while loop
+                to send every line of the txt file to the server instantly.
+
+                Using appropriate indexes database memory is saved as it should only send new values
+
+            */
+
+            public void sendDatatoDatabase(){
+                try {
+
+                    //Open the txt file.
+                    FileInputStream fileInputStream = openFileInput("ArduinoData.txt");
+
+                    //Variable types to use in the program.
+                    InputStreamReader inputStreamReader = new InputStreamReader((fileInputStream));
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    StringBuffer stringBuffer = new StringBuffer();
+                    String lines;
 
 
 
-        }
+                    int j = 0; //local counter to see where on the file we are.
+
+                    //Toast.makeText(getApplicationContext(), "Pressed Switch", Toast.LENGTH_SHORT).show(); for errors
+                    while ((lines = bufferedReader.readLine()) != null) {
+
+                        //Send the data here to the server.
+                        if(indexofFile == j) {
+                            sender(String.valueOf(lines.charAt(0)), String.valueOf(lines.substring(1, lines.length())));
+                            indexofFile++;
+                        }
+
+                        j++;
+
+                    }
+
+                    fileInputStream.close();
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            //--------------Receive feedback from the database based on tags------------------------
+            public void getfeedbackFromDatabase(){
+
+                String feedback_url = Config.DATA_URL+id;
+
+                StringRequest stringRequest = new StringRequest(feedback_url,
+                        new Response.Listener<String>() {
+                            public void onResponse(String response) {
+                                showJSON(response);
+                            }
+                        }
+                        , new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(MainActivity.this,"Error...",Toast.LENGTH_SHORT).show();
+                        error.printStackTrace();
+
+                    }
+                });
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
+            }
+
+            private void showJSON(String response){
+                String feedback = "";
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
+                    JSONObject climatEdgedata = result.getJSONObject(0);
+
+
+                    feedback = climatEdgedata.getString(Config.FEEDBACK);
+                    //Toast.makeText(MainActivity.this,feedback,Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(MainActivity.this,feedback,Toast.LENGTH_SHORT).show();
+            }
+
+}
+

@@ -3,145 +3,204 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/cardView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/cardView3"
-            android:layout_margin="5dp"
-            >
+            android:orientation="vertical" >
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:orientation="vertical"
-                >
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cardView2"
+                android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/textView9"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rainfall Feedback"
-                    android:layout_margin="0dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textBoxScroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/cardView3"
-                    android:layout_marginBottom="15dp"
-                    android:layout_margin="10dp"
-                    android:text="It is recommended that you apply fertiliser at multiple times to spread the risk of nitrogen loss and crop deficiency due to excessive rainfall.\n\nOptimal absorption will occur between 20/06 and 04/07."
-                    />
-            </LinearLayout>
-        </ScrollView>
-    </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:text="Rainfall Feedback"
+                        android:textSize="20sp" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/cardView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+                    <TextView
+                        android:id="@+id/textBoxRain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/cardView3"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="It is recommended that you apply fertiliser at multiple times to spread the risk of nitrogen loss and crop deficiency due to excessive rainfall.\n\nOptimal absorption will occur between 20/06 and 04/07." />
+                </LinearLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/cardView3"
-            android:layout_margin="5dp"
-            >
+            </android.support.v7.widget.CardView>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:orientation="vertical"
-                >
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cardView2"
+                android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/textView10"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Air Temperature Feedback"
-                    android:layout_margin="0dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textBoxScroll10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/cardView3"
-                    android:layout_marginBottom="15dp"
-                    android:layout_margin="10dp"
-                    android:text="Coffee currently within the required average temperature of between 20°-27°C for optimal growth"
-                    />
-            </LinearLayout>
-        </ScrollView>
-    </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:text="Soil Temperature Feedback"
+                        android:textSize="20sp" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/cardView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+                    <TextView
+                        android:id="@+id/textBoxEarth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/cardView3"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="Crop not being getting enough shade. Leguminous plants should be used not only provide shade but also enrich soil with nitrogen." />
+                </LinearLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/cardView3"
-            android:layout_margin="5dp"
-            >
+            </android.support.v7.widget.CardView>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
-                android:orientation="vertical"
-                >
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cardView2"
+                android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/textView11"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Soil Temperature Feedback"
-                    android:layout_margin="0dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textBoxScroll11"
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:text="Air Temperature Feedback"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textBoxAir"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/cardView3"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="Coffee currently within the required average temperature of between 20°-27°C for optimal growth" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cardView2"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/cardView3"
-                    android:layout_marginBottom="15dp"
-                    android:layout_margin="10dp"
-                    android:text="Crop not being getting enough shade. Leguminous plants should be used not only provide shade but also enrich soil with nitrogen."
-                    />
-            </LinearLayout>
-        </ScrollView>
-    </android.support.v7.widget.CardView>
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:text="Drop Size Feedback"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textBoxDrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/cardView3"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="Coffee currently within the required average temperature of between 20°-27°C for optimal growth" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/cardView2"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:text="Humidity Feedback"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textBoxHum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/cardView3"
+                        android:layout_margin="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:text="It is recommended that you apply fertiliser at multiple times to spread the risk of nitrogen loss and crop deficiency due to excessive rainfall.\n\nOptimal absorption will occur between 20/06 and 04/07." />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

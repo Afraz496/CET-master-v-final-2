@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,6 +30,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +55,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class Tab1 extends Fragment {
 
     int lastpressed;
+    char id = 'R';
+    String feedbackstring = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +74,7 @@ public class Tab1 extends Fragment {
         final TextView SixM = (TextView) rootView.findViewById(R.id.textView5);
         final TextView OneY = (TextView) rootView.findViewById(R.id.textView6);
         final TextView All = (TextView) rootView.findViewById(R.id.textView7);
+        TextView feedbacktext = (TextView) rootView.findViewById(R.id.textBoxScroll);
 
         OneD.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +207,9 @@ public class Tab1 extends Fragment {
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
 
+        getfeedbackFromDatabase();
+        feedbacktext.setText(feedbackstring);
+
 
 
         try {
@@ -238,7 +250,7 @@ public class Tab1 extends Fragment {
                     // limit the number of visible entries
                     mChart.setVisibleXRangeMaximum(24);
                     // mChart.setVisibleYRange(30, AxisDependency.LEFT);
-                    mChart.setVisibleXRange(0,24);
+                    //mChart.setVisibleXRange(0,24);
 
                     // move to the latest entry
                     mChart.moveViewToX(data.getEntryCount());
@@ -530,7 +542,45 @@ public class Tab1 extends Fragment {
         OneM.setPaintFlags(View.INVISIBLE);
     }
 
+    public void getfeedbackFromDatabase(){
 
+        String feedback_url = Config.DATA_URL+id;
+
+        StringRequest stringRequest = new StringRequest(feedback_url,
+                new Response.Listener<String>() {
+                    public void onResponse(String response) {
+                        showJSON(response);
+                    }
+                }
+                , new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getActivity().getApplicationContext(),"Error...",Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void showJSON(String response){
+        String feedback = "";
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
+            JSONObject climatEdgedata = result.getJSONObject(0);
+
+
+            feedback = climatEdgedata.getString(Config.FEEDBACK);
+            //Toast.makeText(MainActivity.this,feedback,Toast.LENGTH_SHORT).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //Toast.makeText(getActivity().getApplicationContext(),feedback,Toast.LENGTH_SHORT).show();
+        feedbackstring=feedback;
+    }
 
 
 }
